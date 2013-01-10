@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'gatchaman'
+
+def parse_options
+  opt = OptionParser.new
+  options = {:document_root => ".", :current_directory => nil}
+
+  opt.on('-r document_root') {|v| options[:document_root] = v}
+  opt.on('-c current_directory') {|v| options[:current_directory] = v}
+  opt.parse!(ARGV)
+
+  options
+end
+
+options = parse_options
+input_file = ARGV.shift or raise "usage #{$0} input_file"
+
+print Gatchaman.new(options[:document_root], options[:current_directory] || File.dirname(input_file)).
+  data_uri_schemize(IO.read(input_file))
