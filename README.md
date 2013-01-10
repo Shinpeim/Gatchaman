@@ -1,24 +1,14 @@
-# Gacchaman
+# Gatchaman
 
-TODO: Write a gem description
+Gatchaman is a gem to replace src values in HTML documents with data URI scheme
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'gacchaman'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install gacchaman
+    $ gem install gatchaman
 
 ## Usage
 
-TODO: Write usage instructions here
+    $ gatchan input_file [-r document_root] [-c current_directory]
 
 ## Contributing
 
