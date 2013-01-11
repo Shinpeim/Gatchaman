@@ -6,10 +6,7 @@ Gatchaman is a gem to replace src values in HTML documents with data URI scheme
 
 ## Installation
 
-    $ git clone git://github.com/Shinpeim/Gatchaman.git
-    $ cd Gatchaman
-    $ gem build gatchaman.gemspec
-    $ rake install
+    $ gem install gatchaman
 
 ## Usage
 
