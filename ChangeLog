@@ -5,3 +5,8 @@
 2013-01-11 maruyama shinpei <shinpeim@gmail.com>
 
 	* bin/gatchan prettify error message
+
+2013-01-14 maruyama shinepi <shinpeim@gmail.com>
+
+	* RADME.md add usage of Gatchaman class
+	* relaese version 0.1.1
