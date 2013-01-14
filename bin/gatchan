@@ -13,8 +13,18 @@ def parse_options
   options
 end
 
-options = parse_options
-input_file = ARGV.shift or raise "usage #{$0} input_file"
+def help
+  warn "usage: #{$0} input_file [-r document_root] [-c current_directory]"
+  exit 1
+end
 
-print Gatchaman.new(options[:document_root], options[:current_directory] || File.dirname(input_file)).
-  data_uri_schemize(IO.read(input_file))
+options = parse_options
+input_file = ARGV.shift or help
+
+begin
+  print Gatchaman.new(options[:document_root], options[:current_directory] || File.dirname(input_file)).
+    data_uri_schemize(IO.read(input_file))
+rescue => e
+  warn e.message
+  exit 2
+end
