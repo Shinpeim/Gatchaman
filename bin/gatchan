@@ -8,13 +8,15 @@ def parse_options
 
   opt.on('-r document_root') {|v| options[:document_root] = v}
   opt.on('-c current_directory') {|v| options[:current_directory] = v}
+  opt.on('--expand-js')  { options[:expand_js]  = true}
+  opt.on('--expand-css') { options[:expand_css] = true}
   opt.parse!(ARGV)
 
   options
 end
 
 def help
-  warn "usage: #{$0} input_file [-r document_root] [-c current_directory]"
+  warn "usage: #{$0} input_file [-r document_root] [-c current_directory] [--expand-js] [--expand-css]"
   exit 1
 end
 
