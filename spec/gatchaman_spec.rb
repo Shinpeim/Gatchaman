@@ -48,6 +48,11 @@ describe Gatchaman do
         should == %[<style type="text/css" media="screen">\n#{test_css_content}\n</style>]
     end
 
+    it "css内部のurl参照を展開してくれること" do
+      gatchaman.data_uri_schemize('<link rel="stylesheet" type="text/css" media="screen" href="resouces/test_2.css">').
+        include?(base64_encoded_resouce).should be_true
+    end
+
     it "jsを展開してくれること" do
       gatchaman.data_uri_schemize('<script src="resouces/test.js" type="text/javascript" charset="utf-8"></script>').
         should == %[<script type="text/javascript">\n#{test_js_content}\n</script>]

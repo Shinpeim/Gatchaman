@@ -74,10 +74,18 @@ class Gatchaman
   end
   def expand_css_element(element)
     element.name = "style"
-    element.inner_html = inner_html_from_file(element[:href])
+    content = inner_html_from_file(element[:href])
+    content = expand_css_url(content)
+    element.inner_html = content
     element.attributes.keys.each do |attr_name|
       next if [:media, :type].include? attr_name.to_sym
       element.delete(attr_name)
+    end
+  end
+  def expand_css_url(css_content)
+    css_content.gsub(/\burl\b\(([^)]+)\)/) do
+      data_scheme = to_data_scheme(extract_path($1))
+      "url(#{data_scheme})"
     end
   end
 end
