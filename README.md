@@ -10,11 +10,11 @@ Gatchaman is a gem to replace src values in HTML documents with data URI scheme
 
 ## Usage
 
-    $ gatchan input_file [-r document_root] [-c current_directory]
+    $ gatchan input_file [-r document_root] [-c current_directory] [--expand-js] [--expand-css]
 
 or
 
-    gatchaman = Gatchaman.new(document_root, current_directory)
+    gatchaman = Gatchaman.new(document_root: document_root, current_dir: current_directory, expand_js: true, expand_css: true)
     gatchaman.data_uri_schemize(html_string)
 
 ## Contributing
