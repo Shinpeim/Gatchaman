@@ -55,7 +55,7 @@ describe Gatchaman do
 
     it "jsを展開してくれること" do
       gatchaman.data_uri_schemize('<script src="resources/test.js" type="text/javascript" charset="utf-8"></script>').
-        should == %[<script type="text/javascript">\n#{test_js_content}\n</script>]
+        should == %[<script type="text/javascript"><!--\n\n#{test_js_content}\n\n--></script>]
     end
   end
 end

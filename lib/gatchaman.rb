@@ -69,7 +69,7 @@ class Gatchaman
   end
   def expand_js_element(element)
     return if element[:src].nil? or element[:src].size == 0
-    element.inner_html += inner_html_from_file(element[:src])
+    element.inner_html += html_comment_out(inner_html_from_file(element[:src]))
     [:src, :charset].each {|attr| element.delete(attr.to_s)}
   end
   def expand_css_element(element)
@@ -87,5 +87,8 @@ class Gatchaman
       data_scheme = to_data_scheme(extract_path($1))
       "url(#{data_scheme})"
     end
+  end
+  def html_comment_out(content)
+    ["<!--", content, "-->"].join("\n")
   end
 end
