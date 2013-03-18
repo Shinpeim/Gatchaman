@@ -27,7 +27,7 @@ describe Gatchaman do
     let(:test_js_content)  { open("#{current_dir}/resources/test.js").read.chomp }
 
     it "絶対urlのsrcをdata schemeで置き換えてくれること" do
-      gatchaman.should_receive(:open).with("http://example.com/img/test.png", "r:ASCII-8BIT").
+      Gatchaman::DataScheme.any_instance.should_receive(:open).with("http://example.com/img/test.png", "r:ASCII-8BIT").
         and_return(Base64.decode64(base64_encoded_resource))
       gatchaman.data_uri_schemize("<img src='http://example.com/img/test.png'>").
         should == "<img src=\"data:image/png;base64,#{base64_encoded_resource}\">"
@@ -60,6 +60,11 @@ describe Gatchaman do
 
     it "css内部のurl参照を展開してくれること" do
       gatchaman.data_uri_schemize('<link rel="stylesheet" type="text/css" media="screen" href="resources/test_2.css">').
+        include?(base64_encoded_resource).should be_true
+    end
+
+    it "styleタグ内部のURLを展開してくれること" do
+      gatchaman.data_uri_schemize('<style> * { background: url(/spec/resources/test.png); } </style>').
         include?(base64_encoded_resource).should be_true
     end
 
