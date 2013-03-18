@@ -19,5 +19,6 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency "nokogiri", "~> 1.5.6"
   gem.add_runtime_dependency "mime-types", "~> 1.19"
+  gem.add_runtime_dependency "parslet-css", "~> 0.0.1"
   gem.add_development_dependency "rspec", "~> 2.12.0"
 end

@@ -1,4 +1,5 @@
 require 'gatchaman/embedder/generic'
+require 'parslet-css'
 
 class Gatchaman::Embedder::CSS < Gatchaman::Embedder::Generic
   def embed(doc)
@@ -23,9 +24,17 @@ class Gatchaman::Embedder::CSS < Gatchaman::Embedder::Generic
   end
 
   def embed_all_url_in_css(css_content)
-    css_content.gsub(/\burl\b\(([^)]+)\)/) do
-      data_scheme = Gatchaman::DataScheme.new(path($1))
-      "url(#{data_scheme})"
+    parsed = parser.parse(css_content)
+    return css_content if parsed.is_a? Parslet::Slice
+    slices = parsed.map{|p| p[:url] }.compact.sort_by(&:line_and_column).reverse
+    slices.each do |slice|
+      range = Range.new(slice.offset, slice.offset + slice.str.length - 1)
+      css_content[range] = Gatchaman::DataScheme.new(path(slice.str))
     end
+    css_content
+  end
+
+  def parser
+    @parser ||= ParsletCSS::Parser.new
   end
 end
