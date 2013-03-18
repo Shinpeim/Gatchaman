@@ -19,7 +19,11 @@ class Gatchaman
   end
 
   def data_uri_schemize(html_string)
-    doc = Nokogiri::HTML::DocumentFragment.parse(html_string)
+    doc = if Nokogiri.XML(html_string).root.name == "html"
+            Nokogiri::HTML::Document.parse(html_string)
+          else
+            Nokogiri::HTML::DocumentFragment.parse(html_string)
+          end
 
     doc.css(SCHEMIZE_TARGET_ELEMENTS.join(',')).each do |element|
       element[:src] = to_data_scheme(extract_path(element[:src]))
