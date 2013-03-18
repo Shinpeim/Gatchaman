@@ -27,7 +27,7 @@ describe Gatchaman do
     let(:test_js_content)  { open("#{current_dir}/resources/test.js").read.chomp }
 
     it "絶対urlのsrcをdata schemeで置き換えてくれること" do
-      gatchaman.should_receive(:open).with("http://example.com/img/test.png", "r:ASCII-8BIT").
+      Gatchaman::DataScheme.any_instance.should_receive(:open).with("http://example.com/img/test.png", "r:ASCII-8BIT").
         and_return(Base64.decode64(base64_encoded_resource))
       gatchaman.data_uri_schemize("<img src='http://example.com/img/test.png'>").
         should == "<img src=\"data:image/png;base64,#{base64_encoded_resource}\">"
@@ -43,6 +43,16 @@ describe Gatchaman do
         should == "<img src=\"data:image/png;base64,#{base64_encoded_resource}\">"
     end
 
+    it "ルートにhtmlタグを含む場合、htmlページとして出力すること" do
+      gatchaman.data_uri_schemize('<html><body><h1>nyan!</h1></body></html>').
+        should match /^<html>/
+    end
+
+    it "ルートにhtmlタグを含まない場合、htmlの断片として出力すること" do
+      gatchaman.data_uri_schemize('<body><h1>nyan!</h1></body>').
+        should_not match /^<html>/
+    end
+
     it "cssを展開してくれること" do
       gatchaman.data_uri_schemize('<link rel="stylesheet" type="text/css" media="screen" href="resources/test.css">').
         should == %[<style type="text/css" media="screen">\n#{test_css_content}\n</style>]
@@ -53,9 +63,14 @@ describe Gatchaman do
         include?(base64_encoded_resource).should be_true
     end
 
+    it "styleタグ内部のURLを展開してくれること" do
+      gatchaman.data_uri_schemize('<style> * { background: url(/spec/resources/test.png); } </style>').
+        include?(base64_encoded_resource).should be_true
+    end
+
     it "jsを展開してくれること" do
       gatchaman.data_uri_schemize('<script src="resources/test.js" type="text/javascript" charset="utf-8"></script>').
-        should == %[<script type="text/javascript">\n#{test_js_content}\n</script>]
+        should == %[<script type="text/javascript"><!--\n\n#{test_js_content}\n\n--></script>]
     end
   end
 end
