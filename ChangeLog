@@ -10,3 +10,14 @@
 
 	* RADME.md add usage of Gatchaman class
 	* relaese version 0.1.1
+
+2013-02-20 maruyama shinepi <shinpeim@gmail.com>
+
+	* release version 0.2.0
+	* now gatchan expand js and css(thanks to wneko)
+
+2013-03-18 maruyama shinpei <shinpeim@gmail.com>
+
+	* release version 0.2.1
+	* some bug fixes
+	* refactor (thanks to wneko)
