@@ -72,5 +72,9 @@ describe Gatchaman do
       gatchaman.data_uri_schemize('<script src="resources/test.js" type="text/javascript" charset="utf-8"></script>').
         should == %[<script type="text/javascript"><!--\n\n#{test_js_content}\n\n--></script>]
     end
+
+    it "srcが設定されていないimgタグを無視すること" do
+      gatchaman.data_uri_schemize('<img>').should == %[<img>]
+    end
   end
 end
